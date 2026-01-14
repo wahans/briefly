@@ -384,15 +384,14 @@ export default function LandingPage() {
             <div>
               <h4 className="nav-label text-[#888] mb-4">Legal</h4>
               <ul className="space-y-3">
-                <li><Link href="#" className="text-white text-[15px] hover:text-[#FF6B35] transition-colors">Privacy</Link></li>
-                <li><Link href="#" className="text-white text-[15px] hover:text-[#FF6B35] transition-colors">Terms</Link></li>
-                <li><Link href="#" className="text-white text-[15px] hover:text-[#FF6B35] transition-colors">Security</Link></li>
+                <li><Link href="/privacy" className="text-white text-[15px] hover:text-[#FF6B35] transition-colors">Privacy</Link></li>
+                <li><Link href="/terms" className="text-white text-[15px] hover:text-[#FF6B35] transition-colors">Terms</Link></li>
               </ul>
             </div>
           </div>
           <div className="border-t border-[#333] pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-[#888] text-sm">
-              &copy; 2024 Briefly. All rights reserved. Made by pressing buttons 🤖
+              &copy; 2025 Briefly. All rights reserved. Made by pressing buttons 🤖
             </p>
             <div className="flex gap-6">
               <Link href="#" className="text-[#888] hover:text-white transition-colors text-sm">Twitter</Link>
