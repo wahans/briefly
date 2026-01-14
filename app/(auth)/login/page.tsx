@@ -37,7 +37,7 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-[var(--cream)] px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="font-editorial text-3xl text-[var(--black)]">
+          <Link href="/" className="font-editorial text-[28px] font-bold text-[var(--black)]">
             Briefly
           </Link>
         </div>
