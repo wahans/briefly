@@ -31,10 +31,10 @@ export default async function EditTemplatePage({
   )
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Edit Template</h1>
-        <p className="text-gray-600 mt-1">Update your questionnaire template</p>
+        <h1 className="headline-lg">Edit Template</h1>
+        <p className="text-[var(--gray)] mt-2">Update your questionnaire template</p>
       </div>
       <TemplateBuilder
         template={{

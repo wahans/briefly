@@ -42,22 +42,22 @@ export function Nav({ user }: NavProps) {
     : user.email.slice(0, 2).toUpperCase()
 
   return (
-    <nav className="border-b bg-white">
+    <nav className="border-b border-[var(--black)] bg-[var(--cream)]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16">
           <div className="flex items-center gap-8">
-            <Link href="/dashboard" className="font-bold text-xl text-gray-900">
+            <Link href="/dashboard" className="font-editorial text-2xl text-[var(--black)]">
               Briefly
             </Link>
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="hidden sm:flex items-center gap-6">
               {navItems.map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
-                  className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+                  className={`nav-label transition-colors ${
                     pathname === item.href || pathname.startsWith(item.href + '/')
-                      ? 'bg-gray-100 text-gray-900'
-                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                      ? 'text-[var(--coral)]'
+                      : 'text-[var(--black)] hover:text-[var(--coral)]'
                   }`}
                 >
                   {item.label}
@@ -70,19 +70,19 @@ export function Nav({ user }: NavProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                   <Avatar className="h-10 w-10">
-                    <AvatarFallback className="bg-blue-100 text-blue-700">
+                    <AvatarFallback className="bg-[var(--coral)] text-white font-body text-sm font-medium">
                       {initials}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end">
-                <div className="px-2 py-1.5">
-                  <p className="text-sm font-medium">{user.agencyName || 'My Agency'}</p>
-                  <p className="text-xs text-gray-500">{user.email}</p>
+              <DropdownMenuContent className="w-56 bg-white border border-[var(--black)]" align="end">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-medium text-[var(--black)]">{user.agencyName || 'My Agency'}</p>
+                  <p className="text-xs text-[var(--gray)]">{user.email}</p>
                 </div>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-red-600">
+                <DropdownMenuSeparator className="bg-[var(--black)]" />
+                <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer text-[var(--coral)] hover:bg-[var(--cream)]">
                   Sign out
                 </DropdownMenuItem>
               </DropdownMenuContent>

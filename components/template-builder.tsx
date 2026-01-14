@@ -2,11 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Template, TemplateSection } from '@/types'
 
 interface TemplateSectionInput {
@@ -153,133 +148,141 @@ export function TemplateBuilder({ template }: TemplateBuilderProps) {
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {error && (
-        <div className="p-4 text-red-600 bg-red-50 rounded-lg">{error}</div>
+        <div className="p-4 text-[var(--coral)] bg-red-50 border border-[var(--coral)]">{error}</div>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Template Details</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="bg-white border border-[var(--black)]">
+        <div className="border-b border-[var(--black)] p-6">
+          <h2 className="headline-md">Template Details</h2>
+        </div>
+        <div className="p-6 space-y-6">
           <div className="space-y-2">
-            <Label htmlFor="name">Template Name</Label>
-            <Input
+            <label htmlFor="name" className="nav-label text-[var(--black)]">Template Name</label>
+            <input
               id="name"
+              type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder="e.g., Website Redesign Brief"
+              className="editorial-input"
               required
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="description">Description (optional)</Label>
-            <Textarea
+            <label htmlFor="description" className="nav-label text-[var(--black)]">Description (optional)</label>
+            <textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="What is this template for?"
               rows={2}
+              className="w-full bg-transparent border-b border-[var(--black)] p-3 font-body text-base focus:outline-none focus:border-[var(--coral)] resize-none"
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Sections</h2>
-          <Button type="button" variant="outline" onClick={addSection}>
+          <h2 className="headline-md">Sections</h2>
+          <button type="button" className="btn-secondary" onClick={addSection}>
             Add Section
-          </Button>
+          </button>
         </div>
 
         {sections.map((section, index) => (
-          <Card key={index}>
-            <CardContent className="pt-6">
-              <div className="flex items-start justify-between mb-4">
-                <span className="text-sm font-medium text-gray-500">
+          <div key={index} className="bg-white border border-[var(--black)]">
+            <div className="p-6">
+              <div className="flex items-start justify-between mb-6">
+                <span className="label-tag">
                   Section {index + 1}
                 </span>
                 <div className="flex gap-2">
-                  <Button
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="sm"
                     onClick={() => moveSection(index, 'up')}
                     disabled={index === 0}
+                    className="w-8 h-8 border border-[var(--black)] text-[var(--black)] hover:bg-[var(--black)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     ↑
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="sm"
                     onClick={() => moveSection(index, 'down')}
                     disabled={index === sections.length - 1}
+                    className="w-8 h-8 border border-[var(--black)] text-[var(--black)] hover:bg-[var(--black)] hover:text-white disabled:opacity-30 disabled:cursor-not-allowed transition-colors"
                   >
                     ↓
-                  </Button>
-                  <Button
+                  </button>
+                  <button
                     type="button"
-                    variant="ghost"
-                    size="sm"
                     onClick={() => removeSection(index)}
-                    className="text-red-600 hover:text-red-700"
+                    className="px-3 h-8 border border-[var(--coral)] text-[var(--coral)] hover:bg-[var(--coral)] hover:text-white transition-colors text-sm font-medium"
                   >
                     Remove
-                  </Button>
+                  </button>
                 </div>
               </div>
 
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-6 md:grid-cols-2">
                 <div className="space-y-2">
-                  <Label>Section Title</Label>
-                  <Input
+                  <label className="nav-label text-[var(--black)]">Section Title</label>
+                  <input
+                    type="text"
                     value={section.title}
                     onChange={(e) => updateSection(index, 'title', e.target.value)}
                     placeholder="e.g., Project Goals"
+                    className="editorial-input"
                     required
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label>Question for Client</Label>
-                  <Input
+                  <label className="nav-label text-[var(--black)]">Question for Client</label>
+                  <input
+                    type="text"
                     value={section.description}
                     onChange={(e) => updateSection(index, 'description', e.target.value)}
                     placeholder="e.g., What are you trying to achieve?"
+                    className="editorial-input"
                   />
                 </div>
                 <div className="space-y-2 md:col-span-2">
-                  <Label>Helper Text</Label>
-                  <Textarea
+                  <label className="nav-label text-[var(--black)]">Helper Text</label>
+                  <textarea
                     value={section.helper_text}
                     onChange={(e) => updateSection(index, 'helper_text', e.target.value)}
                     placeholder="Provide guidance to help the client answer"
                     rows={2}
+                    className="w-full bg-transparent border-b border-[var(--black)] p-3 font-body text-base focus:outline-none focus:border-[var(--coral)] resize-none"
                   />
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <input
                     type="checkbox"
                     id={`required-${index}`}
                     checked={section.is_required}
                     onChange={(e) => updateSection(index, 'is_required', e.target.checked)}
-                    className="h-4 w-4 rounded border-gray-300"
+                    className="w-5 h-5 border-2 border-[var(--black)] accent-[var(--coral)]"
                   />
-                  <Label htmlFor={`required-${index}`}>Required section</Label>
+                  <label htmlFor={`required-${index}`} className="font-body text-sm text-[var(--black)]">Required section</label>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+            </div>
+          </div>
         ))}
       </div>
 
-      <div className="flex gap-4">
-        <Button type="submit" disabled={loading}>
+      <div className="flex gap-4 pt-4 border-t border-[var(--black)]">
+        <button
+          type="submit"
+          disabled={loading}
+          className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+        >
           {loading ? 'Saving...' : template ? 'Update Template' : 'Create Template'}
-        </Button>
-        <Button type="button" variant="outline" onClick={() => router.back()}>
+        </button>
+        <button type="button" className="btn-secondary" onClick={() => router.back()}>
           Cancel
-        </Button>
+        </button>
       </div>
     </form>
   )

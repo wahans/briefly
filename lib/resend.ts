@@ -27,7 +27,7 @@ export async function sendBriefInvite(
   const questionnaireUrl = `${APP_URL}/respond/${accessToken}`
 
   const { data, error } = await resend.emails.send({
-    from: 'Briefly <briefs@briefgenius.app>',
+    from: 'Briefly <onboarding@resend.dev>',
     to: clientEmail,
     subject: `${agencyName} needs your input on ${projectName}`,
     html: `
@@ -88,7 +88,7 @@ export async function sendBriefCompleteNotification(
   const briefUrl = `${APP_URL}/briefs/${briefId}`
 
   const { data, error } = await resend.emails.send({
-    from: 'Briefly <briefs@briefgenius.app>',
+    from: 'Briefly <onboarding@resend.dev>',
     to: agencyEmail,
     subject: `Brief completed: ${projectName}`,
     html: `

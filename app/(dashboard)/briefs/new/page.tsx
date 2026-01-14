@@ -2,10 +2,6 @@
 
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import type { Template } from '@/types'
 
 export default function NewBriefPage() {
@@ -61,34 +57,34 @@ export default function NewBriefPage() {
   }
 
   return (
-    <div className="space-y-8 max-w-2xl">
+    <div className="space-y-10 max-w-2xl">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Send New Brief</h1>
-        <p className="text-gray-600 mt-1">
+        <h1 className="headline-lg">Send New Brief</h1>
+        <p className="text-[var(--gray)] mt-2">
           Send a questionnaire to your client
         </p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <Card>
-          <CardHeader>
-            <CardTitle>Brief Details</CardTitle>
-            <CardDescription>
+        <div className="bg-white border border-[var(--black)]">
+          <div className="border-b border-[var(--black)] p-6">
+            <h2 className="headline-md">Brief Details</h2>
+            <p className="text-[var(--gray)] mt-1">
               Enter client information and select a template
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+            </p>
+          </div>
+          <div className="p-6 space-y-6">
             {error && (
-              <div className="p-4 text-red-600 bg-red-50 rounded-lg">{error}</div>
+              <div className="p-4 text-[var(--coral)] bg-red-50 border border-[var(--coral)]">{error}</div>
             )}
 
             <div className="space-y-2">
-              <Label htmlFor="template">Template</Label>
+              <label htmlFor="template" className="nav-label text-[var(--black)]">Template</label>
               <select
                 id="template"
                 value={selectedTemplate}
                 onChange={(e) => setSelectedTemplate(e.target.value)}
-                className="w-full h-10 px-3 rounded-md border border-gray-200 bg-white text-sm"
+                className="w-full h-12 px-4 border border-[var(--black)] bg-white text-sm font-body focus:outline-none focus:border-[var(--coral)]"
                 required
               >
                 <option value="">Select a template...</option>
@@ -99,57 +95,70 @@ export default function NewBriefPage() {
                 ))}
               </select>
               {templates.length === 0 && (
-                <p className="text-sm text-yellow-600">
+                <p className="text-sm text-[var(--coral)]">
                   No templates found. Create a template first.
                 </p>
               )}
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="projectName">Project Name</Label>
-              <Input
+              <label htmlFor="projectName" className="nav-label text-[var(--black)]">Project Name</label>
+              <input
                 id="projectName"
+                type="text"
                 value={projectName}
                 onChange={(e) => setProjectName(e.target.value)}
                 placeholder="e.g., Website Redesign 2024"
+                className="editorial-input"
                 required
               />
             </div>
 
-            <div className="grid gap-4 md:grid-cols-2">
+            <div className="grid gap-6 md:grid-cols-2">
               <div className="space-y-2">
-                <Label htmlFor="clientName">Client Name</Label>
-                <Input
+                <label htmlFor="clientName" className="nav-label text-[var(--black)]">Client Name</label>
+                <input
                   id="clientName"
+                  type="text"
                   value={clientName}
                   onChange={(e) => setClientName(e.target.value)}
                   placeholder="John Smith"
+                  className="editorial-input"
                   required
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="clientEmail">Client Email</Label>
-                <Input
+                <label htmlFor="clientEmail" className="nav-label text-[var(--black)]">Client Email</label>
+                <input
                   id="clientEmail"
                   type="email"
                   value={clientEmail}
                   onChange={(e) => setClientEmail(e.target.value)}
                   placeholder="john@company.com"
+                  className="editorial-input"
                   required
                 />
               </div>
             </div>
 
-            <div className="flex gap-4 pt-4">
-              <Button type="submit" disabled={loading || templates.length === 0}>
+            <div className="flex gap-4 pt-6 border-t border-[var(--black)]">
+              <button
+                type="submit"
+                disabled={loading || templates.length === 0}
+                className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+              >
                 {loading ? 'Sending...' : 'Send Brief'}
-              </Button>
-              <Button type="button" variant="outline" onClick={() => router.back()}>
+              </button>
+              <button
+                type="button"
+                className="btn-secondary"
+                onClick={() => router.back()}
+              >
                 Cancel
-              </Button>
+              </button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       </form>
     </div>
   )

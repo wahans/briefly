@@ -1,9 +1,7 @@
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
+import { CopyLinkButton } from '@/components/copy-link-button'
 import type { TemplateSection, BriefResponse } from '@/types'
 
 export default async function BriefDetailPage({
@@ -33,11 +31,11 @@ export default async function BriefDetailPage({
     notFound()
   }
 
-  const statusColors: Record<string, string> = {
-    pending: 'bg-yellow-100 text-yellow-800',
-    in_progress: 'bg-blue-100 text-blue-800',
-    completed: 'bg-green-100 text-green-800',
-    approved: 'bg-purple-100 text-purple-800',
+  const statusStyles: Record<string, string> = {
+    pending: 'bg-[var(--gray)]',
+    in_progress: 'bg-[var(--coral)]',
+    completed: 'bg-[var(--black)]',
+    approved: 'bg-green-600',
   }
 
   const template = brief.template as { name: string; sections: TemplateSection[] } | null
@@ -47,63 +45,53 @@ export default async function BriefDetailPage({
   const questionnaireUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/respond/${brief.access_token}`
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-10">
       <div className="flex items-start justify-between">
         <div>
-          <div className="flex items-center gap-3 mb-2">
-            <h1 className="text-3xl font-bold text-gray-900">{brief.project_name}</h1>
-            <Badge className={statusColors[brief.status] || ''}>
+          <div className="flex items-center gap-4 mb-3">
+            <h1 className="headline-lg">{brief.project_name}</h1>
+            <span className={`label-tag ${statusStyles[brief.status] || 'bg-[var(--gray)]'}`}>
               {brief.status.replace('_', ' ')}
-            </Badge>
+            </span>
           </div>
-          <p className="text-gray-600">
-            Client: {brief.client_name} ({brief.client_email})
+          <p className="text-[var(--black)]">
+            Client: <span className="font-medium">{brief.client_name}</span> ({brief.client_email})
           </p>
-          <p className="text-sm text-gray-400 mt-1">
-            Template: {template?.name || 'None'} &middot;
-            Sent {new Date(brief.created_at).toLocaleDateString()}
+          <p className="text-sm text-[var(--gray)] mt-1">
+            Template: {template?.name || 'None'} · Sent {new Date(brief.created_at).toLocaleDateString()}
           </p>
         </div>
         <Link href="/briefs">
-          <Button variant="outline">Back to Briefs</Button>
+          <button className="btn-secondary">Back to Briefs</button>
         </Link>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Questionnaire Link</CardTitle>
-          <CardDescription>Share this link with your client</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <div className="bg-white border border-[var(--black)]">
+        <div className="border-b border-[var(--black)] p-6">
+          <h2 className="headline-md">Questionnaire Link</h2>
+          <p className="text-[var(--gray)] mt-1">Share this link with your client</p>
+        </div>
+        <div className="p-6">
           <div className="flex items-center gap-4">
-            <code className="flex-1 p-3 bg-gray-100 rounded text-sm break-all">
+            <code className="flex-1 p-4 bg-[var(--cream)] border border-[var(--black)] text-sm break-all font-mono">
               {questionnaireUrl}
             </code>
-            <Button
-              variant="outline"
-              onClick={() => navigator.clipboard.writeText(questionnaireUrl)}
-            >
-              Copy
-            </Button>
+            <CopyLinkButton url={questionnaireUrl} />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {responses.length > 0 ? (
-        <div className="space-y-6">
-          <h2 className="text-xl font-semibold">Brief Content</h2>
+        <div className="space-y-8">
+          <h2 className="headline-md">Brief Content</h2>
 
           {brief.generated_content?.summary && (
-            <Card>
-              <CardHeader>
-                <CardTitle>Executive Summary</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-gray-700 whitespace-pre-wrap">
-                  {brief.generated_content.summary}
-                </p>
-              </CardContent>
-            </Card>
+            <div className="bg-[var(--black)] text-white p-8">
+              <p className="nav-label text-gray-400 mb-4">Executive Summary</p>
+              <p className="text-lg leading-relaxed whitespace-pre-wrap">
+                {brief.generated_content.summary}
+              </p>
+            </div>
           )}
 
           {sections.map((section) => {
@@ -111,43 +99,41 @@ export default async function BriefDetailPage({
             if (!response) return null
 
             return (
-              <Card key={section.id}>
-                <CardHeader>
-                  <CardTitle>{section.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
+              <div key={section.id} className="bg-white border border-[var(--black)]">
+                <div className="border-b border-[var(--black)] p-6">
+                  <h3 className="font-editorial text-xl">{section.title}</h3>
+                </div>
+                <div className="p-6 space-y-6">
                   <div>
-                    <p className="text-sm font-medium text-gray-500 mb-1">
+                    <p className="nav-label text-[var(--gray)] mb-2">
                       Client&apos;s Answer
                     </p>
-                    <p className="text-gray-700">{response.client_answer}</p>
+                    <p className="text-[var(--black)]">{response.client_answer}</p>
                   </div>
                   {response.ai_expanded && (
-                    <div>
-                      <p className="text-sm font-medium text-gray-500 mb-1">
+                    <div className="pt-6 border-t border-[var(--black)]">
+                      <p className="nav-label text-[var(--coral)] mb-2">
                         AI-Enhanced Brief Content
                       </p>
-                      <p className="text-gray-700 whitespace-pre-wrap">
+                      <p className="text-[var(--black)] whitespace-pre-wrap leading-relaxed">
                         {response.ai_expanded}
                       </p>
                     </div>
                   )}
-                </CardContent>
-              </Card>
+                </div>
+              </div>
             )
           })}
         </div>
       ) : (
-        <Card>
-          <CardContent className="py-16 text-center">
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Waiting for client response
-            </h3>
-            <p className="text-gray-500">
-              Your client hasn&apos;t started the questionnaire yet
-            </p>
-          </CardContent>
-        </Card>
+        <div className="bg-white border border-[var(--black)] py-16 text-center">
+          <h3 className="headline-md mb-2">
+            Waiting for client response
+          </h3>
+          <p className="text-[var(--gray)]">
+            Your client hasn&apos;t started the questionnaire yet
+          </p>
+        </div>
       )}
     </div>
   )
